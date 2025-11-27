@@ -54,7 +54,7 @@ export default function Navbar() {
           </ul>
         </div>
         <Link
-          href="https://my-nextjs-server-sigma.vercel.app/"
+          href="https://nextjs-client-website.vercel.app"
           className="btn btn-ghost text-xl"
         >
           <img
