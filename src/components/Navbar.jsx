@@ -9,17 +9,11 @@ export default function Navbar() {
   // Add console log for register button click
   const handleRegisterClick = () => {
     console.log("Register button clicked");
-    signIn("google", {
-      callbackUrl:
-        "https://nextjs-client-website.vercel.app/api/auth/callback/google",
-    });
+    signIn("google");
   };
 
   const handleSignInClick = () => {
-    signIn("google", {
-      callbackUrl:
-        "https://nextjs-client-website.vercel.app/api/auth/callback/google",
-    });
+    signIn("google");
   };
 
   return (
@@ -46,36 +40,21 @@ export default function Navbar() {
             tabIndex="-1"
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
           >
-            <li>
-              <Link href="/addproduct">Product</Link>
-            </li>
-            <li>
-              <Link href="/aboutus">About us</Link>
-            </li>
+            <li><Link href="/addproduct">Product</Link></li>
+            <li><Link  href="/aboutus">About us</Link></li>
           </ul>
         </div>
-        <Link
-          href="https://my-nextjs-server-sigma.vercel.app/"
-          className="btn btn-ghost text-xl"
-        >
-          <img
-            src="https://99grid.com/cdn/shop/files/saffasfasf_100x@2x.png?v=1652710673"
-            alt=""
-            className="h-[60px] w-[60px]"
-          />
+        <Link href="https://my-nextjs-server-sigma.vercel.app/" className="btn btn-ghost text-xl">
+        <img src="https://99grid.com/cdn/shop/files/saffasfasf_100x@2x.png?v=1652710673" alt="" className="h-[60px] w-[60px]"/>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <Link href="/allproduct">Product</Link>
-          </li>
-          <li>
-            <Link href="/aboutus">About us</Link>
-          </li>
+          <li><Link  href="/allproduct">Product</Link></li>
+          <li><Link  href="/aboutus">About us</Link></li>
         </ul>
       </div>
-
+      
       <div className="navbar-end">
         {loading ? (
           <div className="skeleton h-8 w-20"></div>
@@ -93,41 +72,30 @@ export default function Navbar() {
                   <div className="avatar placeholder">
                     <div className="bg-neutral text-neutral-content rounded-full w-8">
                       <span className="text-xs">
-                        {session.user?.name?.charAt(0) ||
-                          session.user?.email?.charAt(0)}
+                        {session.user?.name?.charAt(0) || session.user?.email?.charAt(0)}
                       </span>
                     </div>
                   </div>
                 )}
-                <span className="hidden sm:inline">
-                  {session.user?.name || session.user?.email}
-                </span>
+                <span className="hidden sm:inline">{session.user?.name || session.user?.email}</span>
               </div>
             </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow"
-            >
-              <li>
-                <Link href="/myprofile">Profile</Link>
-              </li>
-              <li>
-                <Link href="/addproduct">Add Product</Link>
-              </li>
-              <li>
-                <Link href="/manageproduct">Manage Product</Link>
-              </li>
-              <li>
-                <button onClick={() => signOut()}>Sign Out</button>
-              </li>
+            <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow">
+              <li><Link  href="/myprofile">Profile</Link></li>
+              <li><Link  href="/addproduct">Add Product</Link></li>
+              <li><Link href="/manageproduct">Manage Product</Link></li>
+              <li><button onClick={() => signOut()}>Sign Out</button></li>
             </ul>
           </div>
         ) : (
           <div className="flex gap-2">
-            <button className="btn btn-outline" onClick={handleSignInClick}>
+            <button 
+              className="btn btn-outline"
+              onClick={handleSignInClick}
+            >
               Sign In
             </button>
-            <button
+            <button 
               className="btn btn-primary bg-gray-700"
               onClick={handleRegisterClick}
             >
