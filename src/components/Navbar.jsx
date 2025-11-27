@@ -11,14 +11,14 @@ export default function Navbar() {
     console.log("Register button clicked");
     signIn("google", {
       callbackUrl:
-        "https://my-nextjs-server-sigma.vercel.app/api/auth/callback/google",
+        "https://nextjs-client-website.vercel.app/api/auth/callback/google",
     });
   };
 
   const handleSignInClick = () => {
     signIn("google", {
       callbackUrl:
-        "https://my-nextjs-server-sigma.vercel.app/api/auth/callback/google",
+        "https://nextjs-client-website.vercel.app/api/auth/callback/google",
     });
   };
 
