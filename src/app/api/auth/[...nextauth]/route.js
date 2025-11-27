@@ -13,7 +13,7 @@ callbacks: {
       console.log("SignIn callback triggered");
       
       try {
-        const response = await fetch("https://my-nextjs-server-sigma.vercel.apphttps://my-nextjs-server-sigma.vercel.app/user", {
+        const response = await fetch("https://my-nextjs-server-sigma.vercel.app/user", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
