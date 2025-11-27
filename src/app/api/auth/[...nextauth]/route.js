@@ -1,19 +1,21 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-const authOptions = {
+export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-callbacks: {
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
     async signIn({ user, account }) {
       console.log("SignIn callback triggered");
       
       try {
-        const response = await fetch(`${process.env.BACKEND_URL}/api/user`, {
+        // Call LOCAL API route (same app)
+        const response = await fetch('/api/user', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -24,9 +26,12 @@ callbacks: {
           }),
         });
 
-        const result = await response.json();
-        console.log("User saved:", result);
-
+        if (!response.ok) {
+          console.error(`API error: ${response.status}`);
+        } else {
+          const result = await response.json();
+          console.log("User saved:", result);
+        }
       } catch (err) {
         console.error("Error saving user:", err);
       }
@@ -41,11 +46,5 @@ callbacks: {
       return session;
     }
   },
-    debug: true,
-};
-
-
-
-const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST };
+  debug: process.env.NODE_ENV === 'development',
+});
