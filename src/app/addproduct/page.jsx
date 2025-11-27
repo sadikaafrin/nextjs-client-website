@@ -48,7 +48,7 @@ export default function AddproductPage() {
     setErrors({});
 
     // save to backend
-    const res = await fetch("https://my-nextjs-server-ke1cm96l0-afrins-projects-bb3354dc.vercel.app/products", {
+    const res = await fetch("https://my-nextjs-server-sigma.vercel.app/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

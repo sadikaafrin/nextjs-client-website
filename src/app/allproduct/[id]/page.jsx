@@ -1,7 +1,7 @@
 export default async function Allproduct({ params }) {
   const { id } = await params;
 
-  const res = await fetch(`https://my-nextjs-server-ke1cm96l0-afrins-projects-bb3354dc.vercel.app/products/${id}`, {
+  const res = await fetch(`https://my-nextjs-server-sigma.vercel.app/products/${id}`, {
     cache: "no-store",
   });
   const data = await res.json();

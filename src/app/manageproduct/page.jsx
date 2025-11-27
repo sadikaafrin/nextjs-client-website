@@ -16,7 +16,7 @@ export default function ManageProductPage() {
   }, []);
 
   const fetchProducts = () => {
-    fetch("https://my-nextjs-server-ke1cm96l0-afrins-projects-bb3354dc.vercel.app/products")
+    fetch("https://my-nextjs-server-sigma.vercel.app/products")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => {
@@ -48,7 +48,7 @@ export default function ManageProductPage() {
 
     try {
       const response = await fetch(
-        `https://my-nextjs-server-ke1cm96l0-afrins-projects-bb3354dc.vercel.app/products/${productId}`,
+        `https://my-nextjs-server-sigma.vercel.app/products/${productId}`,
         {
           method: "DELETE",
         }

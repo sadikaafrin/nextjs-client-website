@@ -7,7 +7,7 @@ export default function AllproductPage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://my-nextjs-server-ke1cm96l0-afrins-projects-bb3354dc.vercel.app/products")
+    fetch("https://my-nextjs-server-sigma.vercel.app/products")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Error loading products:", err));

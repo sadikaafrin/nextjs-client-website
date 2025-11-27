@@ -44,7 +44,7 @@ export default function Navbar() {
             <li><Link  href="/aboutus">About us</Link></li>
           </ul>
         </div>
-        <Link href="http://localhost:3000/" className="btn btn-ghost text-xl">
+        <Link href="https://my-nextjs-server-sigma.vercel.app/" className="btn btn-ghost text-xl">
         <img src="https://99grid.com/cdn/shop/files/saffasfasf_100x@2x.png?v=1652710673" alt="" className="h-[60px] w-[60px]"/>
         </Link>
       </div>
