@@ -1,20 +1,26 @@
+// src/app/api/auth/[...nextauth]/route.js
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions = {
+// Use fallback secret
+const nextAuthSecret = process.env.NEXTAUTH_SECRET || "temp-secret-32-chars-long-123456789012";
+
+const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: nextAuthSecret,
   callbacks: {
     async signIn({ user, account }) {
-      console.log("SignIn callback - Production");
+      console.log("✅ SignIn callback for:", user?.email);
       
       try {
-        const response = await fetch(`${process.env.BACKEND_URL}/api/user`, {
+        // Use relative URL for same-app API call
+        const baseUrl = process.env.NEXTAUTH_URL || "https://nextjs-client-website.vercel.app";
+        const response = await fetch(`${baseUrl}/api/user`, {
           method: "POST",
           headers: { 
             "Content-Type": "application/json",
@@ -28,16 +34,14 @@ export const authOptions = {
         });
 
         if (!response.ok) {
-          console.error(`Backend error: ${response.status}`);
-          // Still allow signin even if backend fails
-          return true;
+          console.error(`API error: ${response.status}`);
+        } else {
+          const result = await response.json();
+          console.log("User saved:", result);
         }
-
-        const result = await response.json();
-        console.log("User saved in production:", result.user?.email);
-
       } catch (err) {
-        console.error("Production - Error saving user:", err.message);
+        console.error("Error saving user:", err.message);
+        // Don't block signin on errors
       }
 
       return true;
@@ -54,7 +58,9 @@ export const authOptions = {
     signIn: '/auth/signin',
     error: '/auth/error',
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: true,
 };
 
-export default NextAuth(authOptions);
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
