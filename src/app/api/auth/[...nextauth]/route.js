@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -11,13 +11,14 @@ export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account }) {
-      console.log("SignIn callback triggered");
+      console.log("SignIn callback - Production");
       
       try {
-        // Call LOCAL API route (same app)
-        const response = await fetch('/api/user', {
+        const response = await fetch(`${process.env.BACKEND_URL}/api/user`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             email: user.email,
             name: user.name,
@@ -27,13 +28,16 @@ export default NextAuth({
         });
 
         if (!response.ok) {
-          console.error(`API error: ${response.status}`);
-        } else {
-          const result = await response.json();
-          console.log("User saved:", result);
+          console.error(`Backend error: ${response.status}`);
+          // Still allow signin even if backend fails
+          return true;
         }
+
+        const result = await response.json();
+        console.log("User saved in production:", result.user?.email);
+
       } catch (err) {
-        console.error("Error saving user:", err);
+        console.error("Production - Error saving user:", err.message);
       }
 
       return true;
@@ -46,5 +50,11 @@ export default NextAuth({
       return session;
     }
   },
+  pages: {
+    signIn: '/auth/signin',
+    error: '/auth/error',
+  },
   debug: process.env.NODE_ENV === 'development',
-});
+};
+
+export default NextAuth(authOptions);
